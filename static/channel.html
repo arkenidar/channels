@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+<h5>websockets (channels) test</h5>
+
+<input id="message" placeholder="message">
+<button onclick="channel1.send(document.all.message.value)">send to server</button> <br>
+
+counter (a server-sent event): <span id="counter"></span>
+<script type="text/javascript">
+    var channel1 = new WebSocket("ws://localhost:8080/channel1");
+    channel1.onopen = function() {
+        channel1.send("Hello, world");
+    };
+    channel1.onmessage = function (evt) {
+        alert("message from server: " + evt.data);
+    };
+
+    var channel2 = new WebSocket("ws://localhost:8080/channel2");
+    channel2.onmessage = function (evt) {
+        document.all.counter.innerHTML = evt.data;
+    };
+</script>
+</body>
+</html>
